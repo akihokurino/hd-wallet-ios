@@ -12,24 +12,6 @@ struct ManageKeyView: View {
                         .listRowSeparator(.hidden)
                     
                     VStack {
-                        Text("A mnemonic code. Do not forget to keep it.")
-                            .font(.headline)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        Spacer().frame(height: 10)
-                        
-                        Text(viewStore.mnemonics)
-                            .font(.subheadline)
-                            .frame(
-                                minWidth: 0,
-                                maxWidth: .infinity,
-                                alignment: .leading
-                            )
-                    }
-                    
-                    Spacer().frame(height: 20)
-                        .listRowSeparator(.hidden)
-                    
-                    VStack {
                         Text("Generate a private key. The generated private key is stored in the app.")
                             .font(.headline)
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -75,17 +57,10 @@ struct ManageKeyView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                         Spacer().frame(height: 10)
                                             
-                        HStack {
-                            TextFieldView(value: viewStore.binding(
-                                get: { $0.inputMnemonics },
-                                send: ManageKeyApp.Action.inputMnemonics
-                            ), label: "", placeholder: "patrol moment olive ...", keyboardType: .emailAddress)
-                            TextFieldView(value: viewStore.binding(
-                                get: { $0.inputRestoreAccountNum },
-                                send: ManageKeyApp.Action.inputRestoreAccountNum
-                            ), label: "", placeholder: "1", keyboardType: .numberPad)
-                            .frame(width: 100)
-                        }
+                        TextFieldView(value: viewStore.binding(
+                            get: { $0.inputMnemonics },
+                            send: ManageKeyApp.Action.inputMnemonics
+                        ), label: "", placeholder: "patrol moment olive ...", keyboardType: .emailAddress)
                         Spacer().frame(height: 10)
                                             
                         ActionButton(text: "Restore", buttonType: .alert, action: {
@@ -98,9 +73,6 @@ struct ManageKeyView: View {
                 }
                 .listStyle(PlainListStyle())
                 .navigationBarTitle("", displayMode: .inline)
-                .onAppear {
-                    viewStore.send(.startInit)
-                }
                 .overlay(
                     Group {
                         if viewStore.state.isPresentedHUD {

@@ -1,24 +1,25 @@
 import Foundation
+import Web3Core
 
-struct MnemonicsStore {
-    private let serviceKey = "mnemonics"
+struct EthereumKeyStore {
     private let accountKey = "hd-wallet"
 
-    static let shared = MnemonicsStore()
+    static let shared = EthereumKeyStore()
     private init() {}
 
-    func save(mnemonics: String) throws {
-        let data = mnemonics.data(using: .utf8)!
+    func save(keystore: EthereumKeystoreV3, key: EthereumAddress) throws {
+        let data = try keystore.serialize()!
         let query = [
             kSecValueData: data,
             kSecClass: kSecClassGenericPassword,
-            kSecAttrService: serviceKey,
+            kSecAttrService: key.address,
             kSecAttrAccount: accountKey,
         ] as [CFString: Any]
 
         switch SecItemCopyMatching(query as CFDictionary, nil) {
         case errSecItemNotFound:
-            if SecItemAdd(query as CFDictionary, nil) != noErr {
+            let status = SecItemAdd(query as CFDictionary, nil)
+            if status != noErr {
                 throw AppError.message("failed to save keychain")
             }
         case errSecSuccess:
@@ -28,9 +29,9 @@ struct MnemonicsStore {
         }
     }
 
-    func read() throws -> String? {
+    func read(key: EthereumAddress) throws -> EthereumKeystoreV3? {
         let query = [
-            kSecAttrService: serviceKey,
+            kSecAttrService: key.address,
             kSecAttrAccount: accountKey,
             kSecClass: kSecClassGenericPassword,
             kSecReturnData: true,
@@ -41,20 +42,24 @@ struct MnemonicsStore {
         case errSecItemNotFound:
             return nil
         case errSecSuccess:
-            return String(data: result as! Data, encoding: .utf8)
+            guard let data = result as? Data else {
+                throw AppError.message("failed to load keychain")
+            }
+            return EthereumKeystoreV3(data)
         default:
             throw AppError.defaultError()
         }
     }
 
-    func delete() throws {
+    func delete(key: EthereumAddress) throws {
         let query = [
-            kSecAttrService: serviceKey,
+            kSecAttrService: key.address,
             kSecAttrAccount: accountKey,
             kSecClass: kSecClassGenericPassword,
         ] as [CFString: Any]
 
-        if SecItemDelete(query as CFDictionary) != noErr {
+        let status = SecItemDelete(query as CFDictionary)
+        if status != noErr {
             throw AppError.message("failed to delete keychain")
         }
     }

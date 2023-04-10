@@ -28,18 +28,6 @@ struct RootView: View {
                     }
                 }, alignment: .center
             )
-            .fullScreenCover(isPresented: viewStore.binding(
-                get: { $0.isPresentedImportWalletView },
-                send: RootApp.Action.isPresentedImportWalletView
-            )) {
-                IfLetStore(
-                    store.scope(
-                        state: { $0.importWalletState },
-                        action: RootApp.Action.importWalletAction
-                    ),
-                    then: ManageKeyView.init(store:)
-                )
-            }
             .alert(
                 viewStore.error?.alert.title ?? "",
                 isPresented: viewStore.binding(

@@ -27,11 +27,7 @@ enum SendEtherApp {
             return Future<String, AppError> { promise in
                 Task.detached(priority: .background) {
                     do {
-                        guard let txId = try await Ethereum.shared.sendEth(to: toAddress, amount: amount) else {
-                            throw AppError.message("failed to send ether")
-                        }
-
-                        promise(.success(txId))
+                        promise(.success(try await Ethereum.shared.sendEth(to: toAddress, amount: amount)))
                     } catch let error as AppError {
                         promise(.failure(error))
                     } catch {

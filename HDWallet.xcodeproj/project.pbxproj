@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		02098CAE29DFF48300BA4C39 /* MnemonicsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02098CAD29DFF48300BA4C39 /* MnemonicsStore.swift */; };
+		0213233929E4329000E4A6C4 /* BIP32KeyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0213233829E4329000E4A6C4 /* BIP32KeyStore.swift */; };
+		0213233B29E432A000E4A6C4 /* EthereumKeyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0213233A29E432A000E4A6C4 /* EthereumKeyStore.swift */; };
 		024CFD3829DBD1FF0083050E /* Ethereum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024CFD3729DBD1FF0083050E /* Ethereum.swift */; };
 		024CFD3C29DBD37D0083050E /* web3swift in Frameworks */ = {isa = PBXBuildFile; productRef = 024CFD3B29DBD37D0083050E /* web3swift */; };
 		024CFD3E29DBD3DE0083050E /* EthereumUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024CFD3D29DBD3DE0083050E /* EthereumUtil.swift */; };
@@ -43,6 +45,8 @@
 
 /* Begin PBXFileReference section */
 		02098CAD29DFF48300BA4C39 /* MnemonicsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MnemonicsStore.swift; sourceTree = "<group>"; };
+		0213233829E4329000E4A6C4 /* BIP32KeyStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BIP32KeyStore.swift; sourceTree = "<group>"; };
+		0213233A29E432A000E4A6C4 /* EthereumKeyStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumKeyStore.swift; sourceTree = "<group>"; };
 		024CFD3729DBD1FF0083050E /* Ethereum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ethereum.swift; sourceTree = "<group>"; };
 		024CFD3D29DBD3DE0083050E /* EthereumUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthereumUtil.swift; sourceTree = "<group>"; };
 		024CFD3F29DBD49B0083050E /* PrivateKeyStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateKeyStore.swift; sourceTree = "<group>"; };
@@ -94,6 +98,8 @@
 				024CFD3929DBD2430083050E /* Ethereum */,
 				024CFD3F29DBD49B0083050E /* PrivateKeyStore.swift */,
 				02098CAD29DFF48300BA4C39 /* MnemonicsStore.swift */,
+				0213233829E4329000E4A6C4 /* BIP32KeyStore.swift */,
+				0213233A29E432A000E4A6C4 /* EthereumKeyStore.swift */,
 				02B88F3229DD51E30010CB1E /* DataStore.swift */,
 			);
 			path = Infra;
@@ -330,11 +336,13 @@
 				02098CAE29DFF48300BA4C39 /* MnemonicsStore.swift in Sources */,
 				024CFD4029DBD49B0083050E /* PrivateKeyStore.swift in Sources */,
 				027B0A8129DAB9AB002FF37F /* Navigation+TCA.swift in Sources */,
+				0213233929E4329000E4A6C4 /* BIP32KeyStore.swift in Sources */,
 				027B0A8329DABBF7002FF37F /* RootApp.swift in Sources */,
 				027B0A9529DAC736002FF37F /* ManageKeyView.swift in Sources */,
 				02B6CB2529DAB1F9009E7BE8 /* RootView.swift in Sources */,
 				0269227929DE780400F46297 /* SendEtherView.swift in Sources */,
 				02B6CB2329DAB1F9009E7BE8 /* HDWalletApp.swift in Sources */,
+				0213233B29E432A000E4A6C4 /* EthereumKeyStore.swift in Sources */,
 				024CFD4429DC3BF30083050E /* PrivateKey.swift in Sources */,
 				024CFD3829DBD1FF0083050E /* Ethereum.swift in Sources */,
 				027B0A9129DAC276002FF37F /* HUD.swift in Sources */,

@@ -15,7 +15,7 @@ enum WalletApp {
             return Future<String, AppError> { promise in
                 Task.detached(priority: .background) {
                     do {
-                        promise(.success((try await Ethereum.shared.balance()) ?? "---"))
+                        promise(.success(try await Ethereum.shared.balance()))
                     } catch let error as AppError {
                         promise(.failure(error))
                     } catch {
@@ -43,7 +43,7 @@ enum WalletApp {
             return Future<String, AppError> { promise in
                 Task.detached(priority: .background) {
                     do {
-                        promise(.success((try await Ethereum.shared.balance()) ?? "---"))
+                        promise(.success(try await Ethereum.shared.balance()))
                     } catch let error as AppError {
                         promise(.failure(error))
                     } catch {
@@ -70,10 +70,7 @@ enum WalletApp {
             return Future<String, AppError> { promise in
                 Task.detached(priority: .background) {
                     do {
-                        guard let privateKey = try Ethereum.shared.export() else {
-                            throw AppError.defaultError()
-                        }
-                        promise(.success(privateKey))
+                        promise(.success(try Ethereum.shared.export()))
                     } catch let error as AppError {
                         promise(.failure(error))
                     } catch {
@@ -95,8 +92,37 @@ enum WalletApp {
             state.isPresentedErrorAlert = true
             state.error = error
             return .none
-        case .hideExportedPrivateKey:
+        case .startExportMnemonics:
+            state.isPresentedHUD = true
+
+            return Future<String, AppError> { promise in
+                Task.detached(priority: .background) {
+                    do {
+                        promise(.success(try Ethereum.shared.mnemonics()))
+                    } catch let error as AppError {
+                        promise(.failure(error))
+                    } catch {
+                        promise(.failure(AppError.defaultError()))
+                    }
+                }
+            }
+            .subscribe(on: environment.backgroundQueue)
+            .receive(on: environment.mainQueue)
+            .catchToEffect()
+            .map(WalletApp.Action.endExportMnemonics)
+        case .endExportMnemonics(.success(let mnemonics)):
+            print("exported mnemonics: \(mnemonics)")
+            state.exportedMnemonics = mnemonics
+            state.isPresentedHUD = false
+            return .none
+        case .endExportMnemonics(.failure(let error)):
+            state.isPresentedHUD = false
+            state.isPresentedErrorAlert = true
+            state.error = error
+            return .none
+        case .hideExported:
             state.exportedPrivateKey = nil
+            state.exportedMnemonics = nil
             return .none
         case .reset:
             return .none
@@ -155,6 +181,11 @@ enum WalletApp {
         case .importWalletAction(let action):
             switch action {
             case .endGenPrivateKey(.success(let account)):
+                state.account = account
+                state.isPresentedImportWalletView = false
+                state.balance = "---"
+                return EffectTask(value: .startRefresh)
+            case .endRestorePrivateKey(.success(let account)):
                 state.account = account
                 state.isPresentedImportWalletView = false
                 state.balance = "---"
@@ -220,7 +251,9 @@ extension WalletApp {
         case endRefresh(Result<String, AppError>)
         case startExportPrivateKey
         case endExportPrivateKey(Result<String, AppError>)
-        case hideExportedPrivateKey
+        case startExportMnemonics
+        case endExportMnemonics(Result<String, AppError>)
+        case hideExported
         case reset
         case isPresentedErrorAlert(Bool)
         case isPresentedHUD(Bool)
@@ -248,10 +281,11 @@ extension WalletApp {
         var isPresentedSelectAccountView = false
         var isPresentedSendEtherView = false
         var error: AppError?
-        var balance = ""
-        var network: Network = Ethereum.shared.primaryNetwork
         var account: Account
+        var network: Network
+        var balance = ""
         var exportedPrivateKey: String?
+        var exportedMnemonics: String?
 
         var selectAccountState: SelectAccountApp.State?
         var selectNetworkState: SelectNetworkApp.State?

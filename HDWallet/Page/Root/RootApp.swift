@@ -13,10 +13,10 @@ enum RootApp {
 
             state.isPresentedHUD = true
 
-            return Future<Account?, AppError> { promise in
+            return Future<Account, AppError> { promise in
                 Task.detached(priority: .background) {
                     do {
-                        promise(.success(try Ethereum.shared.primaryAccount()))
+                        promise(.success(try Ethereum.shared.initWallet()))
                     } catch let error as AppError {
                         promise(.failure(error))
                     } catch {
@@ -31,14 +31,7 @@ enum RootApp {
         case .endInit(.success(let account)):
             state.isInitialized = true
             state.isPresentedHUD = false
-
-            if let account = account {
-                state.walletState = WalletApp.State(account: account)
-            } else {
-                state.importWalletState = ManageKeyApp.State()
-                state.isPresentedImportWalletView = true
-            }
-
+            state.walletState = WalletApp.State(account: account, network: Ethereum.shared.primaryNetwork())
             return .none
         case .endInit(.failure(let error)):
             state.isPresentedHUD = false
@@ -54,34 +47,13 @@ enum RootApp {
         case .isPresentedHUD(let val):
             state.isPresentedHUD = val
             return .none
-        case .isPresentedImportWalletView(let val):
-            state.isPresentedImportWalletView = val
-            return .none
 
         case .walletAction(let action):
             switch action {
             case .reset:
-                try? ExternalPrivateKeyStore.shared.delete()
-                try? InternalPrivateKeyStore.shared.delete()
-                try? MnemonicsStore.shared.delete()
-                DataStore.shared.delete()
-                state.walletState = nil
-                state.importWalletState = ManageKeyApp.State()
-                state.isPresentedImportWalletView = true
-                return .none
-            default:
-                return .none
-            }
-        case .importWalletAction(let action):
-            switch action {
-            case .endGenPrivateKey(.success(let account)):
-                state.isPresentedImportWalletView = false
-                state.walletState = WalletApp.State(account: account)
-                return .none
-            case .endRestorePrivateKey(.success(let account)):
-                state.isPresentedImportWalletView = false
-                state.walletState = WalletApp.State(account: account)
-                return .none
+                Ethereum.shared.delete()
+                state.isInitialized = false
+                return EffectTask(value: .startInit)
             default:
                 return .none
             }
@@ -98,40 +70,25 @@ enum RootApp {
             )
         }
     )
-    .connect(
-        ManageKeyApp.reducer,
-        state: \RootApp.State.importWalletState,
-        action: /RootApp.Action.importWalletAction,
-        environment: { env in
-            ManageKeyApp.Environment(
-                mainQueue: env.mainQueue,
-                backgroundQueue: env.backgroundQueue
-            )
-        }
-    )
 }
 
 extension RootApp {
     enum Action: Equatable {
         case startInit
-        case endInit(Result<Account?, AppError>)
+        case endInit(Result<Account, AppError>)
         case isPresentedErrorAlert(Bool)
         case isPresentedHUD(Bool)
-        case isPresentedImportWalletView(Bool)
 
         case walletAction(WalletApp.Action)
-        case importWalletAction(ManageKeyApp.Action)
     }
 
     struct State: Equatable {
         var isInitialized = false
         var isPresentedErrorAlert = false
         var isPresentedHUD = false
-        var isPresentedImportWalletView = false
         var error: AppError?
 
         var walletState: WalletApp.State?
-        var importWalletState: ManageKeyApp.State?
     }
 
     struct Environment {

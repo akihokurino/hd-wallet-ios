@@ -1,14 +1,15 @@
 import Foundation
+import Web3Core
 
-struct MnemonicsStore {
-    private let serviceKey = "mnemonics"
+struct BIP32KeyStore {
+    private let serviceKey = "bip32-keystore"
     private let accountKey = "hd-wallet"
 
-    static let shared = MnemonicsStore()
+    static let shared = BIP32KeyStore()
     private init() {}
 
-    func save(mnemonics: String) throws {
-        let data = mnemonics.data(using: .utf8)!
+    func save(keystore: BIP32Keystore) throws {
+        let data = try keystore.serialize()!
         let query = [
             kSecValueData: data,
             kSecClass: kSecClassGenericPassword,
@@ -18,17 +19,21 @@ struct MnemonicsStore {
 
         switch SecItemCopyMatching(query as CFDictionary, nil) {
         case errSecItemNotFound:
-            if SecItemAdd(query as CFDictionary, nil) != noErr {
+            let status = SecItemAdd(query as CFDictionary, nil)
+            if status != noErr {
                 throw AppError.message("failed to save keychain")
             }
         case errSecSuccess:
-            throw AppError.message("failed to save keychain")
+            let status = SecItemUpdate(query as CFDictionary, [kSecValueData as String: data] as CFDictionary)
+            if status != noErr {
+                throw AppError.message("failed to save keychain")
+            }
         default:
             throw AppError.defaultError()
         }
     }
 
-    func read() throws -> String? {
+    func read() throws -> BIP32Keystore? {
         let query = [
             kSecAttrService: serviceKey,
             kSecAttrAccount: accountKey,
@@ -41,7 +46,10 @@ struct MnemonicsStore {
         case errSecItemNotFound:
             return nil
         case errSecSuccess:
-            return String(data: result as! Data, encoding: .utf8)
+            guard let data = result as? Data else {
+                throw AppError.message("failed to load keychain")
+            }
+            return BIP32Keystore(data)
         default:
             throw AppError.defaultError()
         }
@@ -54,7 +62,8 @@ struct MnemonicsStore {
             kSecClass: kSecClassGenericPassword,
         ] as [CFString: Any]
 
-        if SecItemDelete(query as CFDictionary) != noErr {
+        let status = SecItemDelete(query as CFDictionary)
+        if status != noErr {
             throw AppError.message("failed to delete keychain")
         }
     }

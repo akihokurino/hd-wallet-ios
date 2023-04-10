@@ -82,15 +82,15 @@ struct WalletView: View {
                 }
                 .listStyle(PlainListStyle())
 
-                if let privateKey = viewStore.exportedPrivateKey {
+                if let val = viewStore.exportedPrivateKey ?? viewStore.exportedMnemonics {
                     HStack {
-                        Text(privateKey).font(.caption)
+                        Text(val).font(.caption)
                             .padding(.horizontal, 10)
                         Spacer()
                         Image(systemName: "xmark.circle.fill")
                             .padding(.horizontal, 10)
                             .onTapGesture {
-                                viewStore.send(.hideExportedPrivateKey)
+                                viewStore.send(.hideExported)
                             }
                     }
                     .frame(
@@ -129,6 +129,9 @@ struct WalletView: View {
                         },
                         .default(Text("Export Key")) {
                             viewStore.send(.startExportPrivateKey)
+                        },
+                        .default(Text("Export Mnemonics")) {
+                            viewStore.send(.startExportMnemonics)
                         },
                         .destructive(Text("Reset")) {
                             viewStore.send(.reset)

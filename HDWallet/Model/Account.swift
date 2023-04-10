@@ -11,7 +11,7 @@ struct Account: Codable, Identifiable, Equatable {
     }
     
     let name: String
-    let privateKey: PrivateKey
     let address: EthereumAddress
+    let fromMnemonics: Bool
     let createdAt: Date
 }

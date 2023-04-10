@@ -6,40 +6,6 @@ import Web3Core
 enum ManageKeyApp {
     static let reducer = AnyReducer<State, Action, Environment> { state, action, environment in
         switch action {
-        case .startInit:
-            guard !state.isInitialized else {
-                return .none
-            }
-
-            state.isPresentedHUD = true
-
-            return Future<String, AppError> { promise in
-                Task.detached(priority: .background) {
-                    do {
-                        promise(.success(try Ethereum.shared.mnemonics()))
-                    } catch let error as AppError {
-                        promise(.failure(error))
-                    } catch {
-                        promise(.failure(AppError.defaultError()))
-                    }
-                }
-            }
-            .subscribe(on: environment.backgroundQueue)
-            .receive(on: environment.mainQueue)
-            .catchToEffect()
-            .map(ManageKeyApp.Action.endInit)
-        case .endInit(.success(let mnemonics)):
-            print("mnemonics: \(mnemonics)")
-            state.isInitialized = true
-            state.isPresentedHUD = false
-            state.mnemonics = mnemonics
-            return .none
-        case .endInit(.failure(let error)):
-            state.isInitialized = true
-            state.isPresentedHUD = false
-            state.isPresentedErrorAlert = true
-            state.error = error
-            return .none
         case .startGenPrivateKey(let isImport):
             state.isPresentedHUD = true
 
@@ -76,19 +42,18 @@ enum ManageKeyApp {
             state.error = error
             return .none
         case .startRestorePrivateKey:
-            guard !state.inputMnemonics.isEmpty && !state.inputRestoreAccountNum.isEmpty else {
+            guard !state.inputMnemonics.isEmpty else {
                 return .none
             }
             
             state.isPresentedHUD = true
 
             let inputMnemonics = state.inputMnemonics
-            let inputRestoreAccountNum = Int(state.inputRestoreAccountNum)!
-
+        
             return Future<Account, AppError> { promise in
                 Task.detached(priority: .background) {
                     do {
-                        promise(.success(try Ethereum.shared.restoreFrom(mnemonics: inputMnemonics, accountNum: inputRestoreAccountNum)))
+                        promise(.success(try Ethereum.shared.restoreWalletFrom(mnemonics: inputMnemonics)))
                     } catch let error as AppError {
                         promise(.failure(error))
                     } catch {
@@ -114,9 +79,6 @@ enum ManageKeyApp {
         case .inputMnemonics(let val):
             state.inputMnemonics = val
             return .none
-        case .inputRestoreAccountNum(let val):
-            state.inputRestoreAccountNum = val
-            return .none
         case .isPresentedErrorAlert(let val):
             state.isPresentedErrorAlert = val
             if !val {
@@ -132,15 +94,12 @@ enum ManageKeyApp {
 
 extension ManageKeyApp {
     enum Action: Equatable {
-        case startInit
-        case endInit(Result<String, AppError>)
         case startGenPrivateKey(Bool)
         case endGenPrivateKey(Result<Account, AppError>)
         case startRestorePrivateKey
         case endRestorePrivateKey(Result<Account, AppError>)
         case inputPrivateKey(String)
         case inputMnemonics(String)
-        case inputRestoreAccountNum(String)
         case isPresentedErrorAlert(Bool)
         case isPresentedHUD(Bool)
     }
@@ -152,8 +111,6 @@ extension ManageKeyApp {
         var error: AppError?
         var inputPrivateKey = ""
         var inputMnemonics = ""
-        var inputRestoreAccountNum = ""
-        var mnemonics = ""
     }
 
     struct Environment {
