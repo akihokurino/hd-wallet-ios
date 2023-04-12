@@ -14,7 +14,7 @@ enum RootApp {
             state.isPresentedHUD = true
 
             return Future<Account, AppError> { promise in
-                Task.detached(priority: .background) {
+                Task.detached(priority: .high) {
                     do {
                         promise(.success(try Ethereum.shared.initWallet()))
                     } catch let error as AppError {

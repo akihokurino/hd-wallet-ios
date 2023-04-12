@@ -13,7 +13,7 @@ enum WalletApp {
             state.isPresentedHUD = true
 
             return Future<String, AppError> { promise in
-                Task.detached(priority: .background) {
+                Task.detached(priority: .high) {
                     do {
                         promise(.success(try await Ethereum.shared.balance()))
                     } catch let error as AppError {
@@ -41,7 +41,7 @@ enum WalletApp {
             state.isPresentedPTR = true
 
             return Future<String, AppError> { promise in
-                Task.detached(priority: .background) {
+                Task.detached(priority: .high) {
                     do {
                         promise(.success(try await Ethereum.shared.balance()))
                     } catch let error as AppError {
@@ -68,7 +68,7 @@ enum WalletApp {
             state.isPresentedHUD = true
 
             return Future<String, AppError> { promise in
-                Task.detached(priority: .background) {
+                Task.detached(priority: .high) {
                     do {
                         promise(.success(try Ethereum.shared.export()))
                     } catch let error as AppError {
@@ -96,7 +96,7 @@ enum WalletApp {
             state.isPresentedHUD = true
 
             return Future<String, AppError> { promise in
-                Task.detached(priority: .background) {
+                Task.detached(priority: .high) {
                     do {
                         promise(.success(try Ethereum.shared.mnemonics()))
                     } catch let error as AppError {

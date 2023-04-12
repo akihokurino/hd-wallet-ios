@@ -12,7 +12,7 @@ enum ManageKeyApp {
             let inputPrivateKey = state.inputPrivateKey
 
             return Future<Account, AppError> { promise in
-                Task.detached(priority: .background) {
+                Task.detached(priority: .high) {
                     do {
                         let account: Account!
                         if isImport {
@@ -51,7 +51,7 @@ enum ManageKeyApp {
             let inputMnemonics = state.inputMnemonics
         
             return Future<Account, AppError> { promise in
-                Task.detached(priority: .background) {
+                Task.detached(priority: .high) {
                     do {
                         promise(.success(try Ethereum.shared.restoreWalletFrom(mnemonics: inputMnemonics)))
                     } catch let error as AppError {

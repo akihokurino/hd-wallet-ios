@@ -13,11 +13,11 @@ enum Network: CaseIterable, Identifiable {
     var networkUrl: URL {
         switch self {
         case .ethereum:
-            return URL(string: "https://goerli.infura.io/v3/\(Env["INFURA_KEY"]!)")!
+            return URL(string: "https://goerli.infura.io/v3/\(Env.infuraKey)")!
         case .polygon:
-            return URL(string: "https://polygon-mumbai.infura.io/v3/\(Env["INFURA_KEY"]!)")!
+            return URL(string: "https://polygon-mumbai.infura.io/v3/\(Env.infuraKey)")!
         case .avalanch:
-            return URL(string: "https://avalanche-fuji.infura.io/v3/\(Env["INFURA_KEY"]!)")!
+            return URL(string: "https://avalanche-fuji.infura.io/v3/\(Env.infuraKey)")!
         }
     }
 

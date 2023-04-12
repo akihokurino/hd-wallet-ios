@@ -9,7 +9,7 @@ enum SelectAccountApp {
             state.isPresentedHUD = true
 
             return Future<[Account], AppError> { promise in
-                Task.detached(priority: .background) {
+                Task.detached(priority: .high) {
                     do {
                         let accounts = try Ethereum.shared.allAccounts()
                         promise(.success(accounts))
@@ -37,7 +37,7 @@ enum SelectAccountApp {
             state.isPresentedHUD = true
 
             return Future<Account, AppError> { promise in
-                Task.detached(priority: .background) {
+                Task.detached(priority: .high) {
                     do {
                         try Ethereum.shared.changeAccount(account: account)
                         promise(.success(account))

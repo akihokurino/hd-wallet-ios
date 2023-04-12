@@ -30,6 +30,8 @@
 		027B0A9529DAC736002FF37F /* ManageKeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027B0A9429DAC736002FF37F /* ManageKeyView.swift */; };
 		027B0A9729DAD29A002FF37F /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027B0A9629DAD29A002FF37F /* Button.swift */; };
 		027B0A9929DAD69B002FF37F /* Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027B0A9829DAD69B002FF37F /* Input.swift */; };
+		02B31D8B29E6DD470008D9DA /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B31D8A29E6DD470008D9DA /* Env.swift */; };
+		02B31D8D29E6DDD00008D9DA /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 02B31D8C29E6DDD00008D9DA /* Config.xcconfig */; };
 		02B6CB2329DAB1F9009E7BE8 /* HDWalletApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B6CB2229DAB1F9009E7BE8 /* HDWalletApp.swift */; };
 		02B6CB2529DAB1F9009E7BE8 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B6CB2429DAB1F9009E7BE8 /* RootView.swift */; };
 		02B6CB2729DAB1FB009E7BE8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 02B6CB2629DAB1FB009E7BE8 /* Assets.xcassets */; };
@@ -38,7 +40,6 @@
 		02B88F2F29DD1C870010CB1E /* SelectAccountApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B88F2E29DD1C870010CB1E /* SelectAccountApp.swift */; };
 		02B88F3129DD1D3C0010CB1E /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B88F3029DD1D3C0010CB1E /* Account.swift */; };
 		02B88F3329DD51E30010CB1E /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B88F3229DD51E30010CB1E /* DataStore.swift */; };
-		02B88F3629DD66360010CB1E /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B88F3529DD66360010CB1E /* Environment.swift */; };
 		02B88F3829DD75C90010CB1E /* SelectNetworkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B88F3729DD75C90010CB1E /* SelectNetworkApp.swift */; };
 		02B88F3A29DD75DB0010CB1E /* SelectNetworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B88F3929DD75DB0010CB1E /* SelectNetworkView.swift */; };
 /* End PBXBuildFile section */
@@ -64,6 +65,9 @@
 		027B0A9429DAC736002FF37F /* ManageKeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageKeyView.swift; sourceTree = "<group>"; };
 		027B0A9629DAD29A002FF37F /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		027B0A9829DAD69B002FF37F /* Input.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.swift; sourceTree = "<group>"; };
+		02B31D8A29E6DD470008D9DA /* Env.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Env.swift; sourceTree = "<group>"; };
+		02B31D8C29E6DDD00008D9DA /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		02B31D8E29E6DE060008D9DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		02B6CB1F29DAB1F9009E7BE8 /* HDWallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HDWallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		02B6CB2229DAB1F9009E7BE8 /* HDWalletApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HDWalletApp.swift; sourceTree = "<group>"; };
 		02B6CB2429DAB1F9009E7BE8 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -73,7 +77,6 @@
 		02B88F2E29DD1C870010CB1E /* SelectAccountApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAccountApp.swift; sourceTree = "<group>"; };
 		02B88F3029DD1D3C0010CB1E /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		02B88F3229DD51E30010CB1E /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
-		02B88F3529DD66360010CB1E /* Environment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		02B88F3729DD75C90010CB1E /* SelectNetworkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectNetworkApp.swift; sourceTree = "<group>"; };
 		02B88F3929DD75DB0010CB1E /* SelectNetworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectNetworkView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -211,7 +214,9 @@
 				027B0A8829DABD82002FF37F /* Model */,
 				027B0A7D29DAB82E002FF37F /* Page */,
 				02B6CB2229DAB1F9009E7BE8 /* HDWalletApp.swift */,
-				02B88F3529DD66360010CB1E /* Environment.swift */,
+				02B31D8A29E6DD470008D9DA /* Env.swift */,
+				02B31D8C29E6DDD00008D9DA /* Config.xcconfig */,
+				02B31D8E29E6DE060008D9DA /* Info.plist */,
 				02B6CB2629DAB1FB009E7BE8 /* Assets.xcassets */,
 				02B6CB2829DAB1FB009E7BE8 /* Preview Content */,
 			);
@@ -233,7 +238,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 02B6CB2D29DAB1FB009E7BE8 /* Build configuration list for PBXNativeTarget "HDWallet" */;
 			buildPhases = (
-				02B88F3429DD65BC0010CB1E /* Env */,
 				02B6CB1B29DAB1F9009E7BE8 /* Sources */,
 				02B6CB1C29DAB1F9009E7BE8 /* Frameworks */,
 				02B6CB1D29DAB1F9009E7BE8 /* Resources */,
@@ -296,32 +300,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				02B6CB2A29DAB1FB009E7BE8 /* Preview Assets.xcassets in Resources */,
+				02B31D8D29E6DDD00008D9DA /* Config.xcconfig in Resources */,
 				02B6CB2729DAB1FB009E7BE8 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		02B88F3429DD65BC0010CB1E /* Env */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = Env;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/env.sh\" \"${SRCROOT}/.env\" \"${SRCROOT}/${PROJECT}\"\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		02B6CB1B29DAB1F9009E7BE8 /* Sources */ = {
@@ -329,7 +313,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				02B88F2F29DD1C870010CB1E /* SelectAccountApp.swift in Sources */,
-				02B88F3629DD66360010CB1E /* Environment.swift in Sources */,
 				02B88F3129DD1D3C0010CB1E /* Account.swift in Sources */,
 				027B0A9929DAD69B002FF37F /* Input.swift in Sources */,
 				027B0A9329DAC722002FF37F /* ManageKeyApp.swift in Sources */,
@@ -338,6 +321,7 @@
 				027B0A8129DAB9AB002FF37F /* Navigation+TCA.swift in Sources */,
 				0213233929E4329000E4A6C4 /* BIP32KeyStore.swift in Sources */,
 				027B0A8329DABBF7002FF37F /* RootApp.swift in Sources */,
+				02B31D8B29E6DD470008D9DA /* Env.swift in Sources */,
 				027B0A9529DAC736002FF37F /* ManageKeyView.swift in Sources */,
 				02B6CB2529DAB1F9009E7BE8 /* RootView.swift in Sources */,
 				0269227929DE780400F46297 /* SendEtherView.swift in Sources */,
@@ -365,6 +349,7 @@
 /* Begin XCBuildConfiguration section */
 		02B6CB2B29DAB1FB009E7BE8 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 02B31D8C29E6DDD00008D9DA /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -425,6 +410,7 @@
 		};
 		02B6CB2C29DAB1FB009E7BE8 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 02B31D8C29E6DDD00008D9DA /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -491,6 +477,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 39KF2M8S75;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HDWallet/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = HDWallet;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -529,6 +516,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 39KF2M8S75;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HDWallet/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = HDWallet;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

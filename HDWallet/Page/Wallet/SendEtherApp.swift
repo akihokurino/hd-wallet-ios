@@ -25,7 +25,7 @@ enum SendEtherApp {
             state.isPresentedHUD = true
 
             return Future<String, AppError> { promise in
-                Task.detached(priority: .background) {
+                Task.detached(priority: .high) {
                     do {
                         promise(.success(try await Ethereum.shared.sendEth(to: toAddress, amount: amount)))
                     } catch let error as AppError {
